@@ -1,0 +1,51 @@
+<aura:component controller="ObjectsFieldList" implements="force:appHostable,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+	<aura:attribute name="options" type="List" /> 
+	<aura:attribute name="ObjectName" type="String" />
+	<aura:attribute name="selectedValue" type="String" />
+	<aura:attribute name="getField" type="List"/> 
+	<aura:attribute name="getFieldObject" type="List"/>
+	<aura:attribute name="getFieldObjectList" type="List"/> 
+	<aura:attribute name="records" type="List"/> 
+	<aura:attribute name="query" type="String"/> 
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+	<lightning:select name="Objects" label="Select object:" aura:id="onjId" onchange="{!c.onChange}" value="">
+    	<aura:iteration items="{!v.options}" var="objectname">
+        	<option value="{!objectname}" text="{!objectname}" />  
+    	</aura:iteration>
+	</lightning:select>
+    <lightning:card>
+        <table>
+            <tr>
+        		<th>Query :</th>
+        		<td>{!v.query}</td>
+    		</tr>
+        </table>
+    </lightning:card>
+     
+	<span>
+    	<lightning:dualListbox 
+                            	sourceLabel="Available"
+                        	    selectedLabel="Selected"
+                    	        options="{!v.getFieldObject}"
+                	            value="{!v.getFieldObjectList}"
+            	                aura:Id = "fieldSelectBox"
+        	                    onchange="{!c.onFieldChange}"
+    	                        />
+    
+	</span>
+
+	<lightning:card class="slds-scrollable_y" >
+        
+    	<aura:iteration items="{!v.records}" var="rec">
+            <div class="slds-grid slds-gutters">
+                	<lightning:recordViewForm recordId="{!rec.Id}" objectApiName="{!v.ObjectName}" >
+                    	<aura:iteration items="{!v.getFieldObjectList}" var="fld">
+                        	<td  class="slds-col">
+                        	    <lightning:outputField  fieldName="{!fld}" />
+                    	    </td>
+                	    </aura:iteration>
+            	    </lightning:recordViewForm>
+        	</div>
+    	</aura:iteration>
+	</lightning:card>
+</aura:component>

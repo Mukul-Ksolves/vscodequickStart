@@ -1,0 +1,57 @@
+<apex:page controller="InstituteController">
+    
+<apex:form >
+        
+            <apex:selectList value="{!selectedInsId}" size="1">
+                <apex:selectOptions value="{!InstituteNames}" />
+                <apex:actionSupport event="onchange" action="{!showMentors}" reRender="op" />
+            </apex:selectList><br/><br/>
+            
+            <apex:outputPanel id="op">
+            <b><apex:outputText value="Mentors" rendered="{!renderPBtable}"/></b>
+            <b><apex:outputText value="No Mentors on this Institute" rendered="{!noContact}" style="color: red;"/></b>
+            <table>
+            <tr>
+                <th style="padding:10px;width:30px">Mentor Name</th>
+                <th style="padding:10px;width:30px">Designation</th>
+            </tr>
+
+                <apex:repeat value="{!menlist}" var="sc" id="relatedMentorssBlock" rendered="{!renderPBtable}">
+                <tr>    
+                <td style="padding:10px;width:30px">
+                        <apex:commandLink value="{!sc.name}" action="{!showStudents}">
+                        <apex:param name="mentorId" value="{!sc.Id}" assignTo="{!selectedMenId}"/>
+                    </apex:commandLink>
+                    </td>
+                    <td style="padding:10px;width:30px">{!sc.Designation__c}</td>
+                </tr>
+                <apex:outputPanel rendered="{!IF(selectedMenId==sc.Id,true,false)}">
+                    
+                        
+                        <tr style="border: 10px dashed black;">
+                            <th style="padding:10px;width:30px">Student Name</th>
+                            <th style="padding:10px;width:30px">Class</th>
+                            <th style="padding:10px;width:30px">City</th>
+                            <th style="padding:10px;width:30px">State</th>
+                        </tr>
+                            <apex:repeat value="{!stulist}" var="stt" id="relatedStudentsTable" rendered="{!renderSTtable}" >
+                                <tr style="border: 10px dashed black;">
+                                    <td style="padding:10px;width:30px">{!stt.name}</td>
+                                    <td style="padding:10px;width:30px">{!stt.Class__c}</td>
+                                    <td style="padding:10px;width:30px">{!stt.City__c}</td>
+                                    <td style="padding:10px;width:30px">{!stt.State__c}</td>
+                                </tr>
+                                
+                            </apex:repeat>
+                        
+                    
+                </apex:outputPanel>
+                </apex:repeat>
+            
+            </table>
+            
+            
+        </apex:outputPanel>
+    </apex:form>
+
+</apex:page>
