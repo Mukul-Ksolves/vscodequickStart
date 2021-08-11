@@ -1,7 +1,7 @@
 ({
 
     captureObjectField: function (component,event,helper) {
-        var objName = component.get("c.getObjectField"); //get apex method for field names
+        var objName = component.get("c.getObjectField");//get apex method for field names
         var av = component.find('onjId').get('v.value');
         console.log(av);
         action.setParams({"objectName": av});
